@@ -1,30 +1,32 @@
 #include <iostream>
 #include <memory>
-class IntArray
+
+
+template <class T> class FlexArray
 {
     size_t m_occupiedSpaces = 0;
     size_t m_size;
-    int * m_array;
+    T * m_array;
 
 public:
 
-    IntArray()
+    FlexArray()
     {
 
     }
 
-    IntArray(size_t size): m_size(size), m_array(new int[m_size])
+    FlexArray(size_t size): m_size(size), m_array(new T[m_size])
     {
         std::cout << "Constructor" <<"\n";
     }
 
-    ~IntArray()
+    ~FlexArray()
     {
         std::cout << "Destructor" << "\n";
         delete [] m_array;
     }
 
-    void AddItem(int val)
+    void AddItem(T val)
     {
         if(m_occupiedSpaces < m_size)
         {
@@ -36,7 +38,7 @@ public:
         }
     }
 
-    void setItem(size_t index, int value)
+    void setItem(size_t index, T value)
     {
         if(m_array[index] == 0) ++m_occupiedSpaces;
         if(index >= m_size){
@@ -55,17 +57,18 @@ public:
         }
     }
 
-    int & operator [](size_t index)
+    T & operator [](size_t index)
     {
         return m_array[index];
     }
 
 
 };
-    void ShowReferenceCount(std::shared_ptr<IntArray> sharedPointer)
+    template <class T> void ShowReferenceCount(std::shared_ptr<FlexArray<T>> sharedPointer)
     {
         std::cout << "References to sharedPointer: "<< sharedPointer.use_count() << "\n";
     }
+
 int main()
 {
     ///////////////////////////////////////////// DEMO 1
@@ -104,7 +107,7 @@ int main()
 
 ///////////////////////////////////////////// DEMO 3
 
-    IntArray myIntArray(10);
+    FlexArray<int> myIntArray(10);
 
     myIntArray.AddItem(1);
     myIntArray.AddItem(2);
@@ -121,7 +124,7 @@ int main()
     myIntArray.showValues();
 
 
-    auto sharedArray = std::make_shared<IntArray>();
+    auto sharedArray = std::make_shared<FlexArray<int>>();
 
     ShowReferenceCount(sharedArray);
 
