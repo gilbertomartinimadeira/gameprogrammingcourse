@@ -1,0 +1,29 @@
+
+Em C++ lidamos diretamente com a memória , 
+
+existem dois tipos de armazenamento de memória em c++ : HEAP e STACK
+
+int a = 0; //STACK
+
+a quantidade de memória que será usada na Stack deverá ser conhecida em tempo de compilação (static)
+a quantidade de memória que será usada na heap pode ser dinamica
+
+
+
+int* a = new int; //HEAP
+
+int* ha = new int[5]; //HEAP
+
+quando um objeto alocado na heap sai do escopo, ele é destruído
+
+a stack é pequena, é fácil criar o stackoverflow, que é quando acaba o espaço na stack
+
+first in last out
+
+a heap é basicamente a quantidade de RAM que temos disponível pra ser usada
+
+Type * varname = new Type(); //por tras dos panos , new chama a função malloc do C
+
+Evitar alocação dinamica de memoria, pois chama a malloc por trás dos panos e é extremamente custosa
+
+
