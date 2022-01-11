@@ -38,14 +38,14 @@ class Student
       m_sid   (id), 
       m_grade (grade)
       {
-          //std::cout << "Constructor\n";   
+          std::cout << "Constructor for " << m_sid << "\n";   
       }
 
 
-    // ~Student()
-    // {
-    //     std::cout << "Destructor\n";
-    // }
+    ~Student()
+    {
+        std::cout << "Destructor for " << m_sid << "\n";   
+    }
 
     std::string getFirst()
     {
