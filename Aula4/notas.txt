@@ -1,6 +1,7 @@
 sudo apt install g++ build-essential libsfml-dev
 
-g++ src/*.cpp -Isrc -std=c++17 -o bin/sfml -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+g++ *.cpp -Isrc -std=c++17 -o bin/aula4 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio && ./bin/aula4
+
 
 
 

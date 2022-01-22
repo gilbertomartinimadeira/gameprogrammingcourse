@@ -29,7 +29,12 @@ int main(int argc, char * argv[])
     if(!myFont.loadFromFile("fonts/arial.ttf"))
     {
         std::cerr << "Could not load font from file \n";
+        exit(-1);
     }
+
+    sf::Text myText("Eu Aqui seguindo o curso de programacao de jogos com c++ e SFML",myFont,18);
+
+    myText.setPosition(0, wHeight - (float)myText.getCharacterSize() - 2) ;
 
     while(window.isOpen())
     {
@@ -39,9 +44,10 @@ int main(int argc, char * argv[])
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+    
         window.clear();
         window.draw(circle);
+        window.draw(myText);
         window.display();
     }
 
