@@ -41,8 +41,21 @@ int main(int argc, char * argv[])
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            if (event.type == sf::Event::Closed) window.close();
+            if(event.type == sf::Event::KeyPressed)
+            {
+                std::cout << "Key pressed! " << event.key.code << "\n";
+                if(event.key.code == 23)
+                {
+                    circle.setFillColor(sf::Color::Red);
+                }
+            }    
+            if(event.type == sf::Event::MouseButtonPressed)
+            {
+                std::cout << "Mouse pressed! " << event.mouseButton.button << "\n";
+            }
+
+        
         }
     
         window.clear();
