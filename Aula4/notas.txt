@@ -2,3 +2,38 @@ sudo apt install g++ build-essential libsfml-dev
 
 g++ src/*.cpp -Isrc -std=c++17 -o bin/sfml -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
+
+
+submeter main.cpp somente!
+
+--------------------------------------------------------------------------------------
+Program Specification  ( paused youtube video and started writing)
+
+In this assignment you will be writing a C++/SFML program which will read
+descriptions of shapes from a configuration file, and then drawing those shapes
+to the screen. Each shape will have a name, position, speed, color, as well as
+propoerties unique to each shape type. For example, a Rectangle will have width
+and height, and a circle will have a Radius. For this assignment, the position
+of a shape refers to its SFML  default of the upper-left corner fo the shape.
+
+You are also required to make these shapes "bounce" off the sides of the window
+which contains them. This means that if the shape's left side hits the left side
+of the window, its X speed reverses. if the top of shape hits the top of the
+window, its Y speed reverses. Similarly, if it hits the right side or bottom of
+the window. You can assume that shapes will always be configured to start
+entirely within the window. Each shape's name should be drawn on the exact
+center of the shape in the given font size and color specified i the file.
+(note: this may be the trickiest part of the assignment, you will not lose many 
+marks if it's not the exact center)
+
+A sample configuration file is given to you in config.txt, however marking will
+be done using an unseen configuration file in order to test more completely. Be
+sure to add and remove your own shapes to this file to test if they all work 
+correctly.
+
+Each line of the configuration file specifies one of the config settings of the 
+assignment program, with the first string in each line being the type of settings
+that the rest of the line specified. Lines in the config file can be one of the
+following types, and lines can appear in any order in the file.
+
+Window W H 
