@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
     sf::CircleShape circle(50);
     circle.setFillColor(sf::Color::Green);
     circle.setPosition(wWidth/2, wHeight/2);
-    float circleMoveSpeed  = 0.02;
+    float circleMoveSpeed  = -0.02f;
 
     sf::Font myFont;
 
@@ -36,9 +36,17 @@ int main(int argc, char * argv[])
 
     myText.setPosition(0, wHeight - (float)myText.getCharacterSize() - 2) ;
 
+    int counter = 0;
+
     while(window.isOpen())
     {
+        sf::Vector2f previousCirclePosition = circle.getPosition(); 
+        sf::Vector2f movement(circleMoveSpeed,circleMoveSpeed);
+        sf::Vector2f newPosition = previousCirclePosition + movement;
+
         sf::Event event;
+        
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed) window.close();
@@ -47,18 +55,21 @@ int main(int argc, char * argv[])
                 std::cout << "Key pressed! " << event.key.code << "\n";
                 if(event.key.code == 23)
                 {
-                    circle.setFillColor(sf::Color::Red);
+                    circle.setFillColor(sf::Color::Red);                
                 }
             }    
             if(event.type == sf::Event::MouseButtonPressed)
             {
-                std::cout << "Mouse pressed! " << event.mouseButton.button << "\n";
+                std::cout << "Mouse pressed! " << event.mouseButton.button << "\n";            
+                if(event.mouseButton.button == 0)
+                circle.setFillColor(sf::Color::Yellow);                
             }
-
-        
         }
+        
+
+        circle.setPosition(newPosition);
     
-        window.clear();
+        window.clear(sf::Color::White);
         window.draw(circle);
         window.draw(myText);
         window.display();
