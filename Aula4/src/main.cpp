@@ -1,13 +1,42 @@
+/**
+ * @file main.cpp
+ * @author Gilberto Martini Madeira <gilmartmd@gmail.com>
+ * @brief as a sign of appreciation, I'm quoting Dave Churchill, who is an excellent instructor, hope someday he'll read it!
+ * @version 0.1
+ * @date 2022-01-22
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <fstream>
 
-int main()
+int main(int argc, char * argv[])
 {
-    sf::RenderWindow window(sf::VideoMode(300, 300), "SFML works fine!");
-    sf::CircleShape shape(300.f);
-    shape.setFillColor(sf::Color::Blue);
-    shape.setRadius(400);
+    const int wWidth = 800;
+    const int wHeight = 600;
 
-    while (window.isOpen())
+    sf::RenderWindow window(sf::VideoMode(wWidth,wHeight), "SFML Funciona!");
+
+    sf::CircleShape circle(50);
+    circle.setFillColor(sf::Color::Green);
+    circle.setPosition(wWidth/2, wHeight/2);
+    float circleMoveSpeed  = 0.02;
+
+    sf::Font myFont;
+
+    if(!myFont.loadFromFile("fonts/arial.ttf"))
+    {
+        std::cerr << "Could not load font from file \n";
+        exit(-1);
+    }
+
+    sf::Text myText("Eu Aqui seguindo o curso de programacao de jogos com c++ e SFML",myFont,18);
+
+    myText.setPosition(0, wHeight - (float)myText.getCharacterSize() - 2) ;
+
+    while(window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
@@ -15,11 +44,11 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+    
         window.clear();
-        window.draw(shape);
+        window.draw(circle);
+        window.draw(myText);
         window.display();
     }
 
-    return 0;
 }
