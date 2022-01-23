@@ -15,15 +15,16 @@
 
 int main(int argc, char * argv[])
 {
-    const int wWidth = 800;
-    const int wHeight = 600;
+    const int wWidth = 640;
+    const int wHeight = 480;
 
-    sf::RenderWindow window(sf::VideoMode(wWidth,wHeight), "SFML Funciona!");
+    sf::RenderWindow window(sf::VideoMode(wWidth, wHeight), "SFML Funcionando!");
 
     sf::CircleShape circle(60);
     circle.setFillColor(sf::Color::Green);
     circle.setPosition(wWidth/2, wHeight/2);
-    float circleMoveSpeed  = -0.04f;
+    float xAxisSpeed  = -0.1f;
+    float yAxisSpeed  = -0.1f;
 
     sf::Font myFont;
 
@@ -32,8 +33,6 @@ int main(int argc, char * argv[])
         std::cerr << "Could not load font from file \n";
         exit(-1);
     }
-
-        
 
     int counter = 0;
 
@@ -75,14 +74,31 @@ int main(int argc, char * argv[])
                 switch(event.mouseButton.button){
                     case 0: circle.setFillColor(sf::Color::Yellow);  
                     break;        
-                    case 1: circleMoveSpeed *= -1;      
+                    case 1: xAxisSpeed *= -1;      
                     break;                
                 }
             }
         }
         
+        
         sf::Vector2f previousCirclePosition = circle.getPosition(); 
-        sf::Vector2f movement(circleMoveSpeed, circleMoveSpeed);
+        sf::Vector2f movement(xAxisSpeed, yAxisSpeed);
+
+        if(circle.getPosition().x < 0)    
+            xAxisSpeed *= -1;        
+        
+        if(circle.getPosition().y < 0)
+            yAxisSpeed *= -1;
+
+        auto rightEdge = circle.getLocalBounds().width + circle.getPosition().x;
+        if(rightEdge > wWidth)
+            xAxisSpeed *= -1;
+        auto bottomEdge = circle.getLocalBounds().height + circle.getPosition().y;
+        if(bottomEdge > wHeight)
+            yAxisSpeed *= -1;
+
+        
+        movement = sf::Vector2f(xAxisSpeed, yAxisSpeed);
         sf::Vector2f newPosition = previousCirclePosition + movement;
         circle.setPosition(newPosition);
     
