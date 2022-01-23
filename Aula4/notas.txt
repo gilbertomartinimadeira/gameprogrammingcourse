@@ -38,3 +38,30 @@ that the rest of the line specified. Lines in the config file can be one of the
 following types, and lines can appear in any order in the file.
 
 Window W H 
+
+----------------------------------------------------------------------------------
+Assignment Hints
+----------------------------------------------------------------------------------
+
+- In order to store an arbitrary number os shapes from the configuration file,
+  you must store them in a container - std::vector is recommended.
+
+- A shape will 'touch' the side of the window if its bounding box makes
+  contact with it. Each shape's bouxding box rectangle can be obtained via:
+
+  shape.getLocalBounds(); // .top, .left, .width, .height
+  - gives the LOCAL position of the (top, left) of the rectangle
+  - LOCAL position means it is relative to shape.getPosition(), not the window
+  - as wall as the (width, height) size of the rectangle
+
+- Similarly, a sf::Text element's bounding rectangle can also be
+  retrieved via text.getLocalBounds(), which you will need to use to
+  center the text properly within a shape.
+
+- please use C++ file reading (std::ifstream makes this easy) rather 
+  than C-style FILE reading. You will lose marks for using older C functions!
+
+
+  Assignment Hints
+
+  the shape will touch the sides of the window if its bounding box makes contact with it
