@@ -47,7 +47,7 @@ Assignment Hints
   you must store them in a container - std::vector is recommended.
 
 - A shape will 'touch' the side of the window if its bounding box makes
-  contact with it. Each shape's bouxding box rectangle can be obtained via:
+  contact with it. Each shape's bounding box rectangle can be obtained via:
 
   shape.getLocalBounds(); // .top, .left, .width, .height
   - gives the LOCAL position of the (top, left) of the rectangle
