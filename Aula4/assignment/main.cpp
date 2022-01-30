@@ -8,60 +8,101 @@
 #define _USE_MATH_DEFINES
 
 
-//criar uma forma que foi lida no arquivo de configuração
-
 class Shape
 {
 protected:
     
-    int m_width;
-    int m_height;    
-    std::string m_name;
-    std::string m_type;
+    std::string m_type,
+                m_name;
 
-    Shape(int width, 
-          int height, 
-          const std::string name, 
-          const std::string type):
-                                  m_width(width), 
-                                  m_height(height),
-                                  m_name(name),
-                                  m_type(type){}
+    int m_xPosition,
+        m_yPosition,    
+        m_red, 
+        m_green,
+        m_blue;
+
+    float m_xSpeed,
+          m_ySpeed;
     
+    Shape(
+          const std::string type,
+          const std::string name, 
+          int xPosition,
+          int yPosition,
+          float xSpeed,
+          float ySpeed,
+          int red,
+          int green,
+          int blue
+          ): 
+            m_type(type),
+            m_name(name),
+            m_xPosition(xPosition),
+            m_yPosition(yPosition),          
+            m_xSpeed(xSpeed),
+            m_ySpeed(ySpeed),
+            m_red(red),
+            m_green(green),
+            m_blue(blue) {}
 
 public:
     //virtual int getArea() = 0;
-    const std::string toString()
+
+    virtual const std::string toString()
     {
         return "\ntype: " + m_type + 
-                "\nname: " + m_name + 
-                "\nwidth:" + std::to_string(m_width) + 
-                "\nheight: " + std::to_string(m_height) + "\n\n";
+                "\nname: " + m_name +                     
+                "\nX Position: " + std::to_string(m_xPosition) + 
+                "\nY Position: " + std::to_string(m_yPosition) +
+                "\nX Speed: " + std::to_string(m_xSpeed) + 
+                "\nY Speed: " + std::to_string(m_ySpeed) +
+                "\nRed: " + std::to_string(m_red) +
+                "\nGreen: " + std::to_string(m_green) +
+                "\nBlue: " + std::to_string(m_blue);
+                
+                //TODO: Adicionar ao toString do retangulo
+
+                // "\nwidth: " + std::to_string(m_width) + 
+                // "\nheight: " + std::to_string(m_height) +
     }
 
 };
 // Derived classes
 class Rectangle: public Shape 
 {
-
+private:
+    int m_width,
+        m_height;
 public:
     int getArea() { 
         return (m_width * m_height); 
     }
-    Rectangle(int width, 
-              int height, 
-              const std::string name, 
-              const std::string type): Shape { width, height, name, type}{};
+    Rectangle(
+                const std::string type,
+                const std::string name,             
+                int xPosition,
+                int yPosition,
+                float xSpeed,
+                float ySpeed,
+                int red,
+                int green,
+                int blue,
+                int width, 
+                int height) : Shape { type, 
+                                      name,
+                                      xPosition,
+                                      yPosition,
+                                      xSpeed,
+                                      ySpeed,
+                                      red,
+                                      green,
+                                      blue },
+                                      m_width(width),
+                                      m_height(height){}
+             
+              
 };
 
-class Triangle: public Shape 
-{
-//    public:
-//       int getArea() { 
-//          return (m_width * m_height)/2; 
-//       }
-    //Triangle(int width, int height): Shape { width, height }{};
-};
 
 class Circle : public Shape 
 {
@@ -86,20 +127,30 @@ class ConfigManager
     {        
         std::ifstream inputFileStream(fileName);
         
-        std::string type, name ,
+        std::string type, 
+                    name ,
                     xPositionString,
                     yPositionString,
                     xSpeedString,
                     ySpeedString,
-                    widthString,
-                    heightString,
-                    radiusString,
                     redString,
                     greenString,
-                    blueString;
+                    blueString,
+                    widthString,
+                    heightString,
+                    radiusString;
 
-        int xPosition, yPosition, xSpeed, ySpeed, width, height, radius, red, green, blue;
+        int xPosition,
+            yPosition,
+            red,
+            green,
+            blue,
+            width,
+            height,
+            radius;
 
+        float xSpeed,
+              ySpeed;
 
         std::vector<Shape> shapes;
 
@@ -112,18 +163,35 @@ class ConfigManager
                                    xPositionString >> 
                                    yPositionString >> 
                                    xSpeedString >> 
-                                   ySpeedString >> 
-                                   widthString >> 
-                                   heightString >> 
+                                   ySpeedString >>                                 
                                    redString >> 
                                    greenString >> 
-                                   blueString;            
-
+                                   blueString >>
+                                   widthString >> 
+                                   heightString;            
+            
+                xPosition = std::stoi(xPositionString);
+                yPosition = std::stoi(yPositionString);
+                xSpeed = std::stof(xSpeedString);
+                ySpeed = std::stof(xSpeedString);
+                red = std::stoi(redString);
+                green = std::stoi(greenString);
+                blue = std::stoi(blueString);
                 width = std::stoi(widthString); 
                 height = std::stoi(heightString);
 
 
-                shapes.push_back(Rectangle { width, height, name, type });
+                shapes.push_back(Rectangle {type, 
+                                            name, 
+                                            xPosition, 
+                                            yPosition,
+                                            xSpeed, 
+                                            ySpeed,
+                                            red, 
+                                            green, 
+                                            blue, 
+                                            width, 
+                                            height });
             }
 
             else if( type == "Circle") {
@@ -151,10 +219,7 @@ int main(int argc, char * argv[])
 
     std::vector<Shape> shapes = ConfigManager::loadShapesFromConfigFile("config.txt");
     
-    for(int i = 0; i < shapes.size(); i++)
-    {
-        std::cout << shapes[i].toString();
-    }
+    for(int i = 0; i < shapes.size(); i++) std::cout << shapes[i].toString() << "\n";
     
     return 0;
 }

@@ -14,8 +14,8 @@ Font
 type, path, size, r, g, b
 
 #Rectangle
-#type, name , xPos, yPos, xSpeed, ySpeed, width , height, red, green, blue;
+#type, name , xPos, yPos, xSpeed, ySpeed, red, green, blue, width, height;
 
 #Circle
-#type, name , xPos, yPos, xSpeed, ySpeed,  radius, red, green, blue;
+#type, name , xPos, yPos, xSpeed, ySpeed, red, green, blue, radius;
 
