@@ -65,6 +65,16 @@ protected:
 
 public:
     virtual int getArea() = 0;
+    std::string getType(){return m_type;}
+    std::string getName(){return m_name;}
+
+    int getPositionX(){ return m_xPosition;}
+    int getPositionY(){ return m_yPosition;}
+    float getSpeedX(){ return m_xSpeed;}
+    float getSpeedY(){return m_ySpeed;}
+    int getRed(){return m_red;}
+    int getGreen(){return m_green;}
+    int getBlue(){return m_blue;}
 };
 
 class Rectangle: public Shape 
@@ -76,6 +86,9 @@ public:
     int getArea() { 
         return (m_width * m_height); 
     }
+    int getWidth() {return m_width;}
+    int getHeight() {return m_height;}
+
     Rectangle(
                 const std::string type,
                 const std::string name,             
@@ -121,12 +134,16 @@ class Circle : public Shape
 private:
     int m_radius;
 
-    public:
+public:
     int getArea()
     {
         return M_PI * pow(m_radius,2);
     }
-public:
+    int getRadius() 
+    {
+        return m_radius;
+    }
+
     Circle(
         const std::string type,
         const std::string name,             
@@ -312,14 +329,55 @@ int main(int argc, char * argv[])
         
     }
 
+    std::vector<sf::CircleShape> circleShapes;
+    std::vector<sf::RectangleShape> rectangleShapes;
+
     for(auto c : circles)
     {
-        std::cout << c.toString() << "\n";
+        sf::CircleShape circleShape(c.getRadius());
+        circleShape.setFillColor(sf::Color(c.getRed(),c.getGreen(), c.getBlue));
+        sf::Vector2f position(c.getPositionX(),c.getPositionY);
+        circleShape.setPosition(position);
+
+        
+
+        circleShapes.push_back(circleShape);
+
+        
     }
+
     for(auto r : rectangles)
     {
-        std::cout << r.toString() << "\n";
+
+
+
+    }
+
+    int wWidth = 640, wHeight = 480;
+
+    
+
+
+
+    sf::RenderWindow window(sf::VideoMode(wWidth, wHeight),"Assignment 1");
+
+    while(window.isOpen())
+    {
+        sf::Event event;
+
+        while(window.pollEvent(event))
+        {
+
+            if(event.mouseButton.x)
+            {
+                std::cout << "Clicked!!";
+            }
+
+        }
+
+        window.clear(sf::Color::Red);
+        window.display();
+
     }
         
-    return 0;
 }
