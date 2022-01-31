@@ -8,7 +8,7 @@
 #define _USE_MATH_DEFINES
 
 
-class ShapeDTO {
+class Configuration {
 public:
     std::string m_type,
                 m_name;
@@ -160,15 +160,14 @@ public:
                "\nBlue: " + std::to_string(m_blue) +        
                "\nRadius: " + std::to_string(m_radius);
     }
-    
 };
 
 class ConfigManager
 {
     public:
-    static std::vector<ShapeDTO> loadConfiguration(const std::string & fileName)
+    static std::vector<Configuration> loadConfiguration(const std::string & fileName)
     {        
-        std::vector<ShapeDTO> shapeDTOs;
+        std::vector<Configuration> configurations;
 
         std::ifstream inputFileStream(fileName);
         
@@ -240,23 +239,24 @@ class ConfigManager
                 std::cerr << e.what() << '\n';
             }
                         
-            ShapeDTO dto;
-            dto.m_type = type;
-            dto.m_name = name;
-            dto.m_xPosition = xPosition;
-            dto.m_yPosition = yPosition;
-            dto.m_xSpeed = xSpeed;
-            dto.m_xSpeed = ySpeed;
-            dto.m_red = red;
-            dto.m_green = green;
-            dto.m_blue = blue;
-            dto.m_width = width;
-            dto.m_height = height;
-            dto.m_radius = radius;
+            Configuration config;
+            config.m_type = type;
+            config.m_name = name;
+            config.m_xPosition = xPosition;
+            config.m_yPosition = yPosition;
+            config.m_xSpeed = xSpeed;
+            config.m_xSpeed = ySpeed;
+            config.m_red = red;
+            config.m_green = green;
+            config.m_blue = blue;
+            config.m_width = width;
+            config.m_height = height;
+            config.m_radius = radius;
 
-            shapeDTOs.push_back(dto);        
+            configurations.push_back(config);        
         }
-        return shapeDTOs;
+
+        return configurations;
     }
 
 };
@@ -273,43 +273,41 @@ int setupWindow()
 
 int main(int argc, char * argv[])
 {
-    std::vector<ShapeDTO> dtos = ConfigManager::loadConfiguration("config.txt");
+    std::vector<Configuration> configs = ConfigManager::loadConfiguration("config.txt");
 
     std::vector<Rectangle> rectangles;
     std::vector<Circle> circles;
 
-    for (auto dto : dtos)
+    for (auto config : configs)
     {
-        if(dto.m_type == "Rectangle")
-        {
-            std::cout << "Rectangle found, adding to vector...\n";
+        if(config.m_type == "Rectangle")
+        {            
             rectangles.push_back(Rectangle( 
-                                            dto.m_type, 
-                                            dto.m_name,
-                                            dto.m_xPosition,
-                                            dto.m_yPosition,
-                                            dto.m_xSpeed,
-                                            dto.m_ySpeed,
-                                            dto.m_red,
-                                            dto.m_green,
-                                            dto.m_blue,
-                                            dto.m_width,
-                                            dto.m_height));
+                                            config.m_type, 
+                                            config.m_name,
+                                            config.m_xPosition,
+                                            config.m_yPosition,
+                                            config.m_xSpeed,
+                                            config.m_ySpeed,
+                                            config.m_red,
+                                            config.m_green,
+                                            config.m_blue,
+                                            config.m_width,
+                                            config.m_height));
         } 
-        else if(dto.m_type == "Circle") 
-        {
-            std::cout << "Circle found! adding to vector...\n";
+        else if(config.m_type == "Circle") 
+        {        
             circles.push_back(Circle( 
-                                    dto.m_type, 
-                                    dto.m_name,
-                                    dto.m_xPosition,
-                                    dto.m_yPosition,
-                                    dto.m_xSpeed,
-                                    dto.m_ySpeed,
-                                    dto.m_red,
-                                    dto.m_green,
-                                    dto.m_blue,
-                                    dto.m_radius));
+                                    config.m_type, 
+                                    config.m_name,
+                                    config.m_xPosition,
+                                    config.m_yPosition,
+                                    config.m_xSpeed,
+                                    config.m_ySpeed,
+                                    config.m_red,
+                                    config.m_green,
+                                    config.m_blue,
+                                    config.m_radius));
         }
         
     }
