@@ -40,8 +40,8 @@ protected:
         m_blue;
 
     float m_xSpeed,
-          m_ySpeed;
-    
+          m_ySpeed;    
+
     Shape(
           const std::string type,
           const std::string name, 
@@ -61,7 +61,9 @@ protected:
             m_ySpeed(ySpeed),
             m_red(red),
             m_green(green),
-            m_blue(blue) {}
+            m_blue(blue) 
+            {                            
+            }
 
 public:
     virtual int getArea() = 0;
@@ -75,6 +77,7 @@ public:
     int getRed(){return m_red;}
     int getGreen(){return m_green;}
     int getBlue(){return m_blue;}
+    
 };
 
 class Rectangle: public Shape 
@@ -133,7 +136,7 @@ class Circle : public Shape
 {
 private:
     int m_radius;
-
+    sf::CircleShape m_shape;
 public:
     int getArea()
     {
@@ -142,6 +145,11 @@ public:
     int getRadius() 
     {
         return m_radius;
+    }
+
+    sf::CircleShape getShape()
+    {
+        return m_shape;
     }
 
     Circle(
@@ -154,17 +162,24 @@ public:
         int red,
         int green,
         int blue,
-        int radius) : Shape { type, 
-                              name,
-                              xPosition,
-                              yPosition,
-                              xSpeed,
-                              ySpeed,
-                              red,
-                              green,
-                              blue },
-                              m_radius(radius){}
-                              const std::string toString() 
+        int radius
+        ) : m_radius(radius), Shape { type, 
+                                     name,
+                                     xPosition,
+                                     yPosition,
+                                     xSpeed,
+                                     ySpeed,
+                                     red,
+                                     green,
+                                     blue }
+                    {                    
+                        sf::Vector2f initialPosition(xPosition,yPosition);
+
+                        m_shape = sf::CircleShape(m_radius, 20);
+                        m_shape.setFillColor(sf::Color(m_red,m_green, m_blue));                                                                
+                        m_shape.setPosition(initialPosition);                        
+                    }
+    const std::string toString() 
     {
         return "\nType: " + m_type + 
                "\nName: " + m_name +                     
@@ -176,6 +191,20 @@ public:
                "\nGreen: " + std::to_string(m_green) +
                "\nBlue: " + std::to_string(m_blue) +        
                "\nRadius: " + std::to_string(m_radius);
+    }
+    void setShape(sf::CircleShape shape)
+    {
+        m_shape = shape;
+    }
+    
+    void updatePosition()
+    {
+        auto currentPosition = m_shape.getPosition();
+        auto movement = sf::Vector2f(m_xSpeed, m_ySpeed);
+        auto newPosition = currentPosition + movement;
+
+        m_shape.setPosition(newPosition);
+
     }
 };
 
@@ -189,7 +218,7 @@ class ConfigManager
         std::ifstream inputFileStream(fileName);
         
         std::string type, 
-                    name ,
+                    name,
                     xPositionString,
                     yPositionString,
                     xSpeedString,
@@ -216,9 +245,9 @@ class ConfigManager
         while(inputFileStream >> type)
         {        
             inputFileStream >> name >> 
-                                xPositionString >> 
-                                yPositionString >> 
-                                xSpeedString >> 
+                                xPositionString >>
+                                yPositionString >>
+                                xSpeedString >>
                                 ySpeedString >>                                 
                                 redString >> 
                                 greenString >> 
@@ -226,8 +255,7 @@ class ConfigManager
                                    
             if( type == "Rectangle") 
             {
-                inputFileStream >> widthString >> 
-                                   heightString;    
+                inputFileStream >> widthString >> heightString;    
 
                 
                 width = std::stoi(widthString); 
@@ -237,9 +265,7 @@ class ConfigManager
             else if( type == "Circle") {
                 inputFileStream >> radiusString;
                 radius = std::stoi(radiusString);
-            }   
-
-            else continue;
+            } else continue;              
 
             try
             {
@@ -262,7 +288,7 @@ class ConfigManager
             config.m_xPosition = xPosition;
             config.m_yPosition = yPosition;
             config.m_xSpeed = xSpeed;
-            config.m_xSpeed = ySpeed;
+            config.m_ySpeed = ySpeed;
             config.m_red = red;
             config.m_green = green;
             config.m_blue = blue;
@@ -290,10 +316,12 @@ int setupWindow()
 
 int main(int argc, char * argv[])
 {
-    std::vector<Configuration> configs = ConfigManager::loadConfiguration("config.txt");
 
+    std::vector<Configuration> configs = ConfigManager::loadConfiguration("config.txt");
     std::vector<Rectangle> rectangles;
     std::vector<Circle> circles;
+
+    std::vector<sf::CircleShape> circleShapes;    
 
     for (auto config : configs)
     {
@@ -328,54 +356,24 @@ int main(int argc, char * argv[])
         }
         
     }
-
-    std::vector<sf::CircleShape> circleShapes;
-    std::vector<sf::RectangleShape> rectangleShapes;
-
-    for(auto c : circles)
-    {
-        sf::CircleShape circleShape(c.getRadius());
-        circleShape.setFillColor(sf::Color(c.getRed(),c.getGreen(), c.getBlue));
-        sf::Vector2f position(c.getPositionX(),c.getPositionY);
-        circleShape.setPosition(position);
-
         
-
-        circleShapes.push_back(circleShape);
-
-        
-    }
-
-    for(auto r : rectangles)
-    {
-
-
-
-    }
-
     int wWidth = 640, wHeight = 480;
-
     
-
-
-
     sf::RenderWindow window(sf::VideoMode(wWidth, wHeight),"Assignment 1");
-
+    sf::Color screenColor(64,64,64);
+    
     while(window.isOpen())
     {
-        sf::Event event;
-
-        while(window.pollEvent(event))
+      
+        window.clear(screenColor);
+        
+        for(auto circle : circles) 
         {
+            circle.updatePosition();
+            window.draw(circle.getShape());
 
-            if(event.mouseButton.x)
-            {
-                std::cout << "Clicked!!";
-            }
+        }        
 
-        }
-
-        window.clear(sf::Color::Red);
         window.display();
 
     }
