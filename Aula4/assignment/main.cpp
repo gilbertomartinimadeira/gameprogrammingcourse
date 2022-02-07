@@ -175,7 +175,7 @@ public:
                     {                    
                         sf::Vector2f initialPosition(xPosition,yPosition);
 
-                        m_shape = sf::CircleShape(m_radius, 20);
+                        m_shape = sf::CircleShape(m_radius);
                         m_shape.setFillColor(sf::Color(m_red,m_green, m_blue));                                                                
                         m_shape.setPosition(initialPosition);                        
                     }
