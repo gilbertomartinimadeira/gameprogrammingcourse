@@ -367,7 +367,7 @@ int main(int argc, char * argv[])
       
         window.clear(screenColor);
         
-        for(auto circle : circles) 
+        for(auto & circle : circles) 
         {
             circle.updatePosition();
             window.draw(circle.getShape());
