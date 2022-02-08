@@ -197,12 +197,21 @@ public:
         m_shape = shape;
     }
     
-    void updatePosition()
+    void updatePosition(int windowWidth, int windowHeight)
     {
+        //TODO: Detect screen border collision
         auto currentPosition = m_shape.getPosition();
+
+        auto rightEdge = m_shape.getLocalBounds().width + currentPosition.x;
+        auto bottomEdge = m_shape.getLocalBounds().height + currentPosition.y;
+
+        if (currentPosition.x < 0 || rightEdge > windowWidth ) { m_xSpeed *= -1; } 
+        if (currentPosition.y < 0 || bottomEdge > windowHeight  ) { m_ySpeed *= -1; }
+                
         auto movement = sf::Vector2f(m_xSpeed, m_ySpeed);
         auto newPosition = currentPosition + movement;
 
+                
         m_shape.setPosition(newPosition);
 
     }
@@ -367,12 +376,11 @@ int main(int argc, char * argv[])
       
         window.clear(screenColor);
         
-        for(auto & circle : circles) 
+        for(auto & circle : circles)
         {
-            circle.updatePosition();
+            circle.updatePosition(wWidth, wHeight);
             window.draw(circle.getShape());
-
-        }        
+        }
 
         window.display();
 
