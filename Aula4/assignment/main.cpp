@@ -85,6 +85,7 @@ class Rectangle: public Shape
 private:
     int m_width,
         m_height;
+    sf::RectangleShape m_shape;
 public:
     int getArea() { 
         return (m_width * m_height); 
@@ -113,7 +114,14 @@ public:
                                       green,
                                       blue },
                                       m_width(width),
-                                      m_height(height){}
+                                      m_height(height)
+                                      {
+                                        sf::Vector2f initialPosition(xPosition,yPosition);
+                                        sf::Vector2f size(width,height);
+                                        m_shape = sf::RectangleShape(size);
+                                        m_shape.setFillColor(sf::Color(m_red,m_green, m_blue));                                                                
+                                        m_shape.setPosition(initialPosition);         
+                                      }
 
     const std::string toString() 
     {
@@ -128,6 +136,29 @@ public:
                "\nBlue: " + std::to_string(m_blue) +        
                "\nWidth: " + std::to_string(m_width) + 
                "\nHeight: " + std::to_string(m_height);
+    }
+    sf::RectangleShape getShape()
+    {
+        return m_shape;
+    }
+
+    void updatePosition(int windowWidth, int windowHeight)
+    {
+        //TODO: Detect screen border collision
+        auto currentPosition = m_shape.getPosition();
+
+        auto rightEdge = m_shape.getLocalBounds().width + currentPosition.x;
+        auto bottomEdge = m_shape.getLocalBounds().height + currentPosition.y;
+
+        if (currentPosition.x < 0 || rightEdge > windowWidth ) { m_xSpeed *= -1; } 
+        if (currentPosition.y < 0 || bottomEdge > windowHeight  ) { m_ySpeed *= -1; }
+                
+        auto movement = sf::Vector2f(m_xSpeed, m_ySpeed);
+        auto newPosition = currentPosition + movement;
+
+                
+        m_shape.setPosition(newPosition);
+
     }
                          
 };
@@ -329,9 +360,7 @@ int main(int argc, char * argv[])
     std::vector<Configuration> configs = ConfigManager::loadConfiguration("config.txt");
     std::vector<Rectangle> rectangles;
     std::vector<Circle> circles;
-
-    std::vector<sf::CircleShape> circleShapes;    
-
+    
     for (auto config : configs)
     {
         if(config.m_type == "Rectangle")
@@ -380,6 +409,12 @@ int main(int argc, char * argv[])
         {
             circle.updatePosition(wWidth, wHeight);
             window.draw(circle.getShape());
+        }
+
+        for(auto & rectangle : rectangles)
+        {
+            rectangle.updatePosition(wWidth, wHeight);
+            window.draw(rectangle.getShape());
         }
 
         window.display();
