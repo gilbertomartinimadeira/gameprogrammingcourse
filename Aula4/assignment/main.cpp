@@ -144,7 +144,7 @@ public:
 
     void updatePosition(int windowWidth, int windowHeight)
     {
-        //TODO: Detect screen border collision
+        //TODO: Implement single method in base class
         auto currentPosition = m_shape.getPosition();
 
         auto rightEdge = m_shape.getLocalBounds().width + currentPosition.x;

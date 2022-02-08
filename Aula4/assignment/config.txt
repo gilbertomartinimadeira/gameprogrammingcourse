@@ -1,11 +1,11 @@
 Window 800 600
 Font fonts/arial.ttf 18 255 255 255
-Circle CGreen 100 100 -0.03 0.02 0 255 0 50
-Circle CBlue 200 200 0.02 0.04 0 0 255 100 
-Circle CPurple 300 300 -0.02 -0.01 255 0 255 75
+Circle CGreen 100 100 -0.3 0.2 0 255 0 50
+Circle CBlue 200 200 0.2 0.4 0 0 255 100 
+Circle CPurple 300 300 -0.2 -0.1 255 0 255 75
 Rectangle RRed 200 200 0.1 0.15 255 0 0 50 25
-Rectangle RGrey 300 250 -0.02 0.02 100 100 100 50 100
-Rectangle RTeal 25 100 -0.02 -0.02 0 255 255 100 100
+Rectangle RGrey 300 250 -0.2 0.2 100 100 100 50 100
+Rectangle RTeal 25 100 -0.2 -0.2 0 255 255 100 100
 
 
 #g++ *.cpp -Isrc -std=c++17 -o bin/assignment1 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio && ./bin/assignment1
