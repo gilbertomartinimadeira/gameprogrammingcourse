@@ -34,54 +34,6 @@ class Vec2
 };
 
 
-// class Transform
-// {
-//     public:
-//     Vec2 pos = {0,0};
-//     Vec2 velocity = {0,0};
-//     Transform() {}
-//     Transform(const Vec2 & p, const Vec2 & v )
-//         :pos(p), velocity(v) {}
-
-
-// };
-// class Name{};
-// class Shape
-// {
-//     public:
-//     sf::CircleShape shape;
-//     Shape(){}
-// };
-// class BBox{};
-
-// typedef std::shared_ptr<Transform> CTransform;
-// typedef std::shared_ptr<Name> CName;
-// typedef std::shared_ptr<Shape> CShape;
-// typedef std::shared_ptr<BBox> CBBox;
-
-
-// class Entity
-// {
-// public:
-//     CTransform cTransform;
-//     CName cName;
-//     CShape cShape;
-//     CBBox cCBBox;
-
-//     Entity(){};
-
-// };
-
-
-//we don't want to copy the vector!!!!! thus use a REFERENCE!!!
-// void sMovement(std::vector<Entity> & entities)
-// {
-//     for(auto & e : entities)
-//     {   
-//         e.cTransform->pos += e.cTransform->velocity;    
-//     }
-// }
-
 
 int main(int argc, char* argv[])
 {
@@ -96,8 +48,8 @@ int main(int argc, char* argv[])
 
     std::cout << "Are p1 and p4 equal? " << (p1 == p4) << "\n";
 
-    //std::cout <<" Scaling p3 up times ten!\n";
-    //p3 = p3 *10;
+    std::cout <<" Scaling p3 up times ten!\n";
+    p3 = p3 *10;
 
     p3.scale(2)
       .add(1)
@@ -107,15 +59,7 @@ int main(int argc, char* argv[])
 
     std::cout << p3;
 
-    // std::vector<Entity> entities;
-    
-    // Entity e;
-    // Vec2 p(100,100), v(10,10);
-
-    // e.cTransform = std::make_shared<Transform> (p,v);
-    // e.cName      = std::make_shared<Name>      ("Red box");
-
-    // entities.push_back(e);
+  
 
 
 

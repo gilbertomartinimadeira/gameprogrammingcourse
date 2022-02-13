@@ -1,3 +1,3 @@
 Components store public accessible data!
 
-g++ *.cpp -Isrc -std=c++17 -o bin/Aula5 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio && ./bin/Aula5
+g++ part1.cpp -Isrc -std=c++17 -o bin/Aula5 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio && ./bin/Aula5
