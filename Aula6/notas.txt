@@ -1,1 +1,4 @@
 iterator invalidation ( happens al the time in gamming)
+
+
+ g++ part1.cpp -o bin/aula6 && ./bin/aula6

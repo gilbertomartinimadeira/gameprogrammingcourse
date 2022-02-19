@@ -96,7 +96,11 @@ class EntityManager
     size_t m_totalEntities = 0;
 
     public:
-    EntityManager();
+    EntityManager()
+    {
+        m_entities = std::vector<std::shared_ptr<Entity>>();
+    }
+    
     std::shared_ptr<Entity> addEntity(const std::string& tag)
     {
         auto e = std::make_shared<Entity>("Player", m_totalEntities++);
@@ -104,8 +108,14 @@ class EntityManager
         return e;
     }
     
-    EntityVec& getEntities(); 
-    EntityVec& getEntities(const std::string& tag);
+    EntityVec& getEntities()
+    {
+        return m_entities;
+    }
+    EntityVec& getEntities(const std::string& tag)
+    {
+        return m_entityMap[tag];
+    }
 
     void update()
     {
@@ -161,8 +171,18 @@ class Scene
 int main(int argc,char * argv[])
 {
     
+    //scene 1:
+    EntityManager em1;
 
+    em1.addEntity("player1");
+    em1.addEntity("player2");
 
+    em1.update();
+    auto entities = em1.getEntities();
 
+    for(auto e : entities)
+    {
+        std::cout << e->getId()<< ", " << e->getTag() << "\n";
+    }
     
 }
