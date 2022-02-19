@@ -55,6 +55,11 @@ class CBBox{};
 
 class Entity
 {
+    friend class EntityManager;
+private :
+    Entity(const std::string& tag, size_t id)
+    :m_id(id), m_tag(tag){}    
+
     const size_t      m_id   = 0;
     const std::string m_tag  = "Default";
     bool  m_alive            = true;
@@ -64,6 +69,8 @@ public:
     std::shared_ptr<CName>      cName;
     std::shared_ptr<CShape>     cShape;
     std::shared_ptr<CBBox>      cBBox;
+
+    
     const std::string& getTag() const
     {
         return m_tag;
@@ -82,8 +89,7 @@ public:
         m_alive = false;
     }
 
-    Entity(const std::string& tag, size_t id)
-    :m_id(id), m_tag(tag){}    
+   
 };
 typedef std::vector<std::shared_ptr<Entity>> EntityVec;
 typedef std::map   <std::string, EntityVec>  EntityMap;
@@ -103,7 +109,7 @@ class EntityManager
     
     std::shared_ptr<Entity> addEntity(const std::string& tag)
     {
-        auto e = std::make_shared<Entity>("Player", m_totalEntities++);
+        auto e = std::shared_ptr<Entity>(new Entity(tag, m_totalEntities++));    
         m_toAdd.push_back(e);    
         return e;
     }
@@ -174,8 +180,8 @@ int main(int argc,char * argv[])
     //scene 1:
     EntityManager em1;
 
-    em1.addEntity("player1");
-    em1.addEntity("player2");
+    em1.addEntity("player");
+    em1.addEntity("player");
 
     em1.update();
     auto entities = em1.getEntities();
