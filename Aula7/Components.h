@@ -27,4 +27,43 @@ public:
         }
 };
 
-class CCollision{};
+class CCollision
+{
+public:
+    float radius = 0;
+    CCollision(float r): radius(r){}
+
+};
+
+class CScore 
+{
+public:
+    int score = 0; // número de lados * 100
+
+    CScore(int s):score(s){}
+};
+
+class CLifespan
+{
+public:
+                        // 100 total lifespan, alive for 30 frames
+    int remaining = 0;  // amount of lifespan remaining on the entity
+    int total     = 0;  // the total initial amount of lifespan
+    CLifespan(int total) 
+        :remaining(total), total(total){}
+};
+
+class CInput
+{
+public:
+    bool up    = false;
+    bool down  = false;
+    bool left  = false;
+    bool right = false;
+    bool down  = false;
+    bool shoot = false;
+
+    CInput() {}  // attach to player, record  the key that was pressed
+                 // look 
+
+};
