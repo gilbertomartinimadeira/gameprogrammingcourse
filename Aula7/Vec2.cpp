@@ -36,4 +36,3 @@ Vec2 Vec2::operator /  (const float val) const  { return Vec2(0,0);}
 // {
 //     return stream << vec2.x << " " << vec2.y <<"\n";
 // }
-};
